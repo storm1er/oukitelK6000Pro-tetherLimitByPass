@@ -43,3 +43,8 @@ ui_print("- Deleting installation files ...");
 	run_program("/tmp/busybox","rm","-fr","/tmp/edit_build.prop.sh");
 	run_program("/tmp/busybox","rm","-fr","/tmp/busybox");
 ui_print("- Done.");
+
+ui_print("==================================");
+ui_print("==    Installation done  ^^     ==");
+ui_print("==    You can reboot now        ==");
+ui_print("==================================");
