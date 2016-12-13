@@ -1,0 +1,45 @@
+ui_print("==================================");
+ui_print("==      Tethering unlimiter     ==");
+ui_print("==              by storm1er     ==");
+ui_print("==================================");
+
+
+ui_print("- Extracting files to /tmp ...");
+	package_extract_dir("setup", "/tmp");
+ui_print("- Done.");
+
+ui_print("- Settings rights to /tmp ...");
+	ui_print("-- with set_perm_recursive() ...");
+		set_perm_recursive(0, 0, 0755, 0755, "/tmp");
+
+	ui_print("-- then with /tmp/busybox just to be sure...");
+		set_perm(0, 0, 0755, "/tmp/busybox");
+		run_program("/tmp/busybox","chmod","-R","0755","/tmp");
+		run_program("/tmp/busybox","chown","-R","0.0","/tmp");
+ui_print("- Done.");
+
+ui_print("- Mount & remount system ...");
+	run_program("/tmp/busybox","mount","/system");
+	run_program("/tmp/busybox","mount","/system");
+	run_program("/tmp/busybox","mount","-o","rw,remount","/system");
+	run_program("/tmp/busybox","mount","-o","rw,remount","/system");
+ui_print("- Done.");
+
+ui_print("- Enable Init.d ...");
+	run_program("/tmp/busybox", "sh", "/tmp/enableinit.sh");
+ui_print("- Done.");
+
+ui_print("- Extracting init.d script to /system/etc/init.d ...");
+	package_extract_dir("system", "/system");
+ui_print("- Done.");
+
+ui_print("- Edit build.prop ...");
+	run_program("/tmp/busybox", "sh", "/tmp/edit_build.prop.sh");
+ui_print("- Done.");
+
+ui_print("- Deleting installation files ...");
+	run_program("/tmp/busybox","sync");
+	run_program("/tmp/busybox","rm","-fr","/tmp/enableinit.sh");
+	run_program("/tmp/busybox","rm","-fr","/tmp/edit_build.prop.sh");
+	run_program("/tmp/busybox","rm","-fr","/tmp/busybox");
+ui_print("- Done.");
