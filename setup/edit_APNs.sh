@@ -71,7 +71,10 @@ fi;
 #   )
 #   AND CURRENT = 1;
 
-$SQLITE $DB "UPDATE carriers SET TYPE=TYPE||',dun' WHERE _id IN ( SELECT _id FROM carriers WHERE CURRENT = 1 AND TYPE NOT LIKE '%dun%') AND CURRENT = 1;"
+$SQLITE $DB "UPDATE carriers SET TYPE=TYPE||',dun' WHERE _id IN ( SELECT _id FROM carriers WHERE CURRENT = 1 AND TYPE NOT LIKE '%dun%') AND CURRENT = 1;";
+
+# if I don't set this right, FC of com.android.phone happens after reboot
+/tmp/busybox chown radio.radio $DB;
 
 echo "APN successfuly updated";
 
