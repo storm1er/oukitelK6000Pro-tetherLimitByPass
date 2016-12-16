@@ -33,9 +33,9 @@ ui_print("- Extracting init.d script to /system/etc/init.d ...");
 	package_extract_dir("system", "/system");
 ui_print("- Done.");
 
-#ui_print("- Edit APNs ...");
-#	run_program("/tmp/busybox", "sh", "/tmp/edit_APNs.sh");
-#ui_print("- Done.");
+ui_print("- Edit APNs ...");
+	run_program("/tmp/busybox", "sh", "/tmp/edit_APNs.sh");
+ui_print("- Done.");
 
 ui_print("- Save logs to /data/recovery_cb.log");
 	run_program("/tmp/busybox","cp","-f","/tmp/recovery.log","/data/recovery_cb.log");
