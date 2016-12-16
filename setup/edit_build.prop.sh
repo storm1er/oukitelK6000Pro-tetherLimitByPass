@@ -9,15 +9,13 @@ exec 0>&1
 
 set +e
 
-# mounting system as rw
-busybox mount -o remount,rw /system
-if [ $? != 0 ] ; then exit
-fi
-
 # Variable declarations
 # these are for the build.prop
 FILE=/system/build.prop
-TMPFILE=$FILE.tmp
+TMPFILE=$FILE.bakupTether
+
+#make a save
+cp $FILE $TMPFILE
 
 # PROP VARIABLE
 # these varaibles are the actual props inside the build prop we want to modify
@@ -47,16 +45,17 @@ lineNum=
         #sed -i "${lineNum}i${prop}=${arg}" $FILE
 
 
-prop=$line1Arg										#b
+prop=$line1										#b
 arg=$line1Arg										#c
 if grep -Fq $prop $FILE ; then						#d
-    lineNum=`sed -n "/${prop}/=" $FILE`				#e
+    lineNum=`/tmp/busybox sed -n "/${prop}/=" $FILE`				#e
     echo $lineNum
-    sed -i "${lineNum} c${prop}=${arg}" $FILE		#f
+    /tmp/busybox sed -i "${lineNum} c${prop}=${arg}" $FILE		#f
 else
     echo "$prop does not exist in build.prop"
     echo "appending to end of build.prop"
-    echo $prop=$arg >> build.prop
+    echo "echo $prop=$arg >> $FILE"
+    echo $prop=$arg >> $FILE
 fi
 
 # to iterate over all the prop values you want to change,
