@@ -1,0 +1,46 @@
+ui_print("==================================");
+ui_print("==      Tethering unlimiter     ==");
+ui_print("==              by storm1er     ==");
+ui_print("==================================");
+
+ui_print("- Extracting files to /tmp ...");
+	package_extract_dir("setup", "/tmp");
+ui_print("- Done.");
+
+ui_print("- Settings rights to /tmp ...");
+	ui_print("-- with set_perm_recursive() ...");
+		set_perm_recursive(0, 0, 0755, 0755, "/tmp");
+ui_print("- Done.");
+
+ui_print("- Mounting system && data by following fstab...");
+	run_program("/tmp/busybox", "sh", "/tmp/auto_mount.sh");
+ui_print("- Done.");
+
+ui_print("- Restore build.prop ...");
+	run_program("/tmp/busybox", "sh", "/tmp/restore_build.prop.sh");
+ui_print("- Done.");
+
+ui_print("- Deleting init.d script ...");
+	delete("/system/init.d/99tetherUnlimited");
+ui_print("- Done.");
+
+ui_print("- Restore APNs ...");
+	run_program("/tmp/busybox", "sh", "/tmp/restore_APNs.sh");
+ui_print("- Done.");
+
+ui_print("- Save logs to /data/recovery_tether.log");
+	run_program("/tmp/busybox","cp","-f","/tmp/recovery.log","/data/recovery_tether.log");
+
+ui_print("- Deleting installation files ...");
+	run_program("/tmp/busybox","sync");
+	delete("/tmp/sqlite3");
+	delete("/tmp/restore_build.prop.sh");
+	delete("/tmp/auto_mount.sh");
+	delete("/tmp/restore_APNs.sh");
+	delete("/tmp/busybox");
+ui_print("- Done.");
+
+ui_print("==================================");
+ui_print("==  Uninstallation done  :(     ==");
+ui_print("==    You can reboot now        ==");
+ui_print("==================================");
